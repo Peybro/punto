@@ -31,6 +31,7 @@
 	import { goto } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import InfoBoard from '$lib/components/InfoBoard.svelte';
 
 	$: selectedLanguage = translations[$languageId];
 	$: isHost = $host.uuid === $player.uuid;
@@ -304,7 +305,7 @@
 	/**
 	 * Resets the lobby to its initial state
 	 */
-	async function resetLobby() {
+	export async function resetLobby() {
 		await set(ref(db, `${$lobbyCode}/roundHasStarted`), false);
 
 		await set(
@@ -521,7 +522,7 @@
 	{/if}
 
 	{#if $lobbyConnected}
-		{#if $infoVisible}
+		<!-- {#if $infoVisible}
 			<div class="d-flex justify-content-between">
 				<h4 class="text-start mt-4">
 					{$roundHasStarted ? selectedLanguage.order : selectedLanguage.players}
@@ -553,7 +554,7 @@
 				disabled={$player.uuid !== $host.uuid || !$roundHasStarted}
 				>{selectedLanguage.endRound}</button
 			>
-		{/if}
+		{/if} -->
 
 		{#if $roundHasStarted || $gameState.turn > 0}
 			<div transition:fly={{ y: 200, duration: 1000 }}>
@@ -626,6 +627,10 @@
 		<h1 class="mt-5">{selectedLanguage.notConnected}</h1>
 	{/if}
 </div>
+
+{#if $lobbyConnected}
+	<InfoBoard on:start={startRound} on:reset={resetLobby} />
+{/if}
 
 <style scoped>
 	.next {

@@ -7,6 +7,14 @@ $dark: #161616;
 html,
 body {
 	overscroll-behavior-y: contain;
+
+	.cursor-pointer {
+		cursor: pointer;
+	}
+
+	.cursor-grab {
+		cursor: grab;
+	}
 }
 
 .punto {
